@@ -1,7 +1,6 @@
 import os
 import requests
 import zipfile
-from os.path import isfile, join
 
 NAME_MIN_LENGTH = 3
 NAME_MIN_FREQ = 10
@@ -10,8 +9,8 @@ DATA_DIR = 'names'
 ZIP_FILE = 'names.zip'
 
 def get_folder_files(folder, extension):
-    return [join(folder,f) for f in os.listdir(folder)
-        if isfile(join(folder,f)) and f.endswith(extension)]
+    return [os.path.join(folder,f) for f in os.listdir(folder)
+        if os.path.isfile(os.path.join(folder,f)) and f.endswith(extension)]
 
 def download_and_extract_data(url, zip_file, extract_to):
     response = requests.get(url)
@@ -47,8 +46,6 @@ for fn in filenames:
 
 print(len(names_set), 'unique names')
 with open('names-dataset.txt', 'w+') as f:
-    f.write('\
-'.join(names_set).lower() + '\
-')
+    f.write('\n'.join(names_set).lower() + '\n')
 print('file written')
 print('...finished')
